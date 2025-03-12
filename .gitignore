@@ -34,9 +34,6 @@ yarn-error.log*
 # production
 /build
 
-# Ignore Webpack Output
-dist/
-
 # misc
 .DS_Store
 .env.local
