@@ -44,3 +44,13 @@ You don’t have to ever use `eject`. The curated feature set is suitable for sm
 You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
 
 To learn React, check out the [React documentation](https://reactjs.org/).
+
+updating the gh page dist
+
+git checkout gh-pages
+git pull origin gh-pages  # Ensure you're up-to-date
+git checkout main -- dist  # Copy the updated dist/ folder from main
+git add dist
+git commit -m "Updated chatbot build"
+git push origin gh-pages
+

@@ -21,10 +21,14 @@ module.exports = {
         },
       },
       {
-        test: /\.css$/,  // NEW: Handle CSS files
+        test: /\.css$/,  // Support CSS files
         use: ["style-loader", "css-loader"],
       },
     ],
+  },
+  externals: {
+    react: "React",
+    "react-dom": "ReactDOM",
   },
   resolve: {
     extensions: [".js", ".jsx", ".ts", ".tsx"],
