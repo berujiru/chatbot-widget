@@ -29,5 +29,6 @@ module.exports = {
   resolve: {
     extensions: [".js", ".jsx", ".ts", ".tsx"],
   },
+  externals: {}, // Ensure React is bundled, no externals
   mode: "production",
 };
