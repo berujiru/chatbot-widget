@@ -23,35 +23,18 @@ const Chatbot: React.FC<ChatbotProps> = ({
   userAvatar = "https://via.placeholder.com/40",
   logo = "https://via.placeholder.com/60",
 }) => {
-  /**
-   * An array of messages exchanged between the user and the bot.
-   * Each message contains the text of the message and the sender.
-   */
   const [messages, setMessages] = useState<Message[]>(() => {
     const savedMessages = localStorage.getItem("chatHistory");
     return savedMessages ? JSON.parse(savedMessages) : [{ text: "Hello! How can I assist you today?", sender: "bot" }];
   });
 
-  /**
-   * The input text entered by the user.
-   */
   const [input, setInput] = useState("");
-
-  /**
-   * Whether the chat window is open or not.
-   */
   const [isOpen, setIsOpen] = useState(false);
 
-  /**
-   * Save the chat history to local storage.
-   */
   useEffect(() => {
     localStorage.setItem("chatHistory", JSON.stringify(messages));
   }, [messages]);
 
-  /**
-   * Send the user's message to the bot and display the response.
-   */
   const sendMessage = async () => {
     if (!input.trim()) return;
 
@@ -60,9 +43,6 @@ const Chatbot: React.FC<ChatbotProps> = ({
     setInput("");
 
     try {
-      /**
-       * Make a POST request to the OpenAI API to get the response from the bot.
-       */
       const response = await axios.post(
         "https://api.openai.com/v1/chat/completions",
         {
@@ -75,9 +55,6 @@ const Chatbot: React.FC<ChatbotProps> = ({
       const botMessage = response.data.choices[0].message.content;
       setMessages([...newMessages, { text: botMessage, sender: "bot" }]);
     } catch (error) {
-      /**
-       * If there is an error fetching the response, display a generic error message.
-       */
       setMessages([...newMessages, { text: "Error fetching response.", sender: "bot" }]);
     }
   };
@@ -92,21 +69,10 @@ const Chatbot: React.FC<ChatbotProps> = ({
 
       {/* Chat Window */}
       {isOpen && (
-        <motion.div
-          className="chat-window"
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          exit={{ opacity: 0, y: 20 }}
-        >
+        <motion.div className="chat-window" initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: 20 }}>
           <div className="chat-messages">
             {messages.map((msg, index) => (
-              <motion.div
-                key={index}
-                className={`chat-bubble ${msg.sender}`}
-                initial={{ opacity: 0, scale: 0.8 }}
-                animate={{ opacity: 1, scale: 1 }}
-                transition={{ duration: 0.3 }}
-              >
+              <motion.div key={index} className={`chat-bubble ${msg.sender}`} initial={{ opacity: 0, scale: 0.8 }} animate={{ opacity: 1, scale: 1 }} transition={{ duration: 0.3 }}>
                 <img src={msg.sender === "bot" ? botAvatar : userAvatar} alt="avatar" className="chat-avatar" />
                 <span>{msg.text}</span>
               </motion.div>

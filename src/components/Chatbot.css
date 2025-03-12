@@ -1,32 +1,45 @@
-.chatbot-container {
+:root {
+    --chat-header-bg: #007bff;  /* Header background */
+    --chat-button-bg: #008cba;  /* Submit button */
+    --chat-avatar-bg: #f0f0f0;  /* Avatar background */
+    --chat-bg: #ffffff;         /* Chat background */
+    --chat-bubble-user: #007bff; /* User bubble */
+    --chat-bubble-bot: #f1f1f1;  /* Bot bubble */
+    --chat-text-color: white;    /* User text color */
+  }
+  
+  /* Chatbot Container */
+  .chatbot-container {
     position: fixed;
     bottom: 20px;
     right: 20px;
-    width: 300px;
+    width: 320px;
     font-family: Arial, sans-serif;
     z-index: 1000;
   }
   
+  /* Chat Header */
   .chat-head {
     display: flex;
     align-items: center;
-    background-color: #007bff;
+    background-color: var(--chat-header-bg);
     color: white;
-    padding: 10px;
+    padding: 12px;
     border-radius: 20px;
     cursor: pointer;
     box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
   }
   
   .chat-logo {
-    width: 30px;
-    height: 30px;
+    width: 35px;
+    height: 35px;
     margin-right: 10px;
     border-radius: 50%;
   }
   
+  /* Chat Window */
   .chat-window {
-    background: white;
+    background: var(--chat-bg);
     border-radius: 10px;
     overflow: hidden;
     box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
@@ -40,6 +53,7 @@
     flex-direction: column;
   }
   
+  /* Chat Bubble */
   .chat-bubble {
     display: flex;
     align-items: center;
@@ -60,8 +74,10 @@
     height: 30px;
     border-radius: 50%;
     margin: 5px;
+    background: var(--chat-avatar-bg);
   }
   
+  /* Chat Text Bubble */
   .chat-bubble span {
     padding: 10px;
     border-radius: 10px;
@@ -69,15 +85,16 @@
   }
   
   .chat-bubble.bot span {
-    background: #f1f1f1;
+    background: var(--chat-bubble-bot);
     color: black;
   }
   
   .chat-bubble.user span {
-    background: #007bff;
-    color: white;
+    background: var(--chat-bubble-user);
+    color: var(--chat-text-color);
   }
   
+  /* Input Field */
   .chat-input {
     display: flex;
     padding: 10px;
@@ -92,7 +109,7 @@
   }
   
   .chat-input button {
-    background: #007bff;
+    background: var(--chat-button-bg);
     color: white;
     border: none;
     padding: 8px 12px;
