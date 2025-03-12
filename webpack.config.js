@@ -1,7 +1,7 @@
 const path = require("path");
 
 module.exports = {
-  entry: "./src/components/Chatbot.tsx", // Your chatbot entry point
+  entry: "./src/components/Chatbot.tsx",
   output: {
     filename: "chatbot-widget.js",
     path: path.resolve(__dirname, "dist"),
@@ -21,14 +21,10 @@ module.exports = {
         },
       },
       {
-        test: /\.css$/,  // Support CSS files
+        test: /\.css$/,
         use: ["style-loader", "css-loader"],
       },
     ],
-  },
-  externals: {
-    react: "React",
-    "react-dom": "ReactDOM",
   },
   resolve: {
     extensions: [".js", ".jsx", ".ts", ".tsx"],
