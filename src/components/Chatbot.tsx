@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { motion } from "framer-motion";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faTimes, faRedo } from "@fortawesome/free-solid-svg-icons";
 import "./Chatbot.css";
 
 interface ChatbotProps {
@@ -10,7 +12,7 @@ interface ChatbotProps {
   toggleLogo?: string;
   botAvatar?: string;
   logo?: string;
-  maxConversationHours?: number; // New: Expiration time
+  maxConversationHours?: number;
 }
 
 interface Message {
@@ -26,7 +28,7 @@ const Chatbot: React.FC<ChatbotProps> = ({
   toggleLogo,
   botAvatar = "https://via.placeholder.com/40",
   logo = "https://via.placeholder.com/60",
-  maxConversationHours = 24, // Default expiration time
+  maxConversationHours = 24,
 }) => {
   const [messages, setMessages] = useState<Message[]>(() => {
     const savedMessages = localStorage.getItem("chatHistory");
@@ -35,7 +37,6 @@ const Chatbot: React.FC<ChatbotProps> = ({
       const expirationTime = maxConversationHours * 60 * 60 * 1000;
       const now = Date.now();
 
-      // Remove old messages
       const filteredMessages = parsedMessages.filter(
         (msg) => now - msg.timestamp < expirationTime
       );
@@ -47,6 +48,7 @@ const Chatbot: React.FC<ChatbotProps> = ({
 
   const [input, setInput] = useState("");
   const [isOpen, setIsOpen] = useState(false);
+  const [isTyping, setIsTyping] = useState(false); // AI Thinking State
 
   useEffect(() => {
     localStorage.setItem("chatHistory", JSON.stringify(messages));
@@ -63,6 +65,7 @@ const Chatbot: React.FC<ChatbotProps> = ({
     const newMessages: Message[] = [...messages, { text: input, sender: "user", timestamp: Date.now() }];
     setMessages(newMessages);
     setInput("");
+    setIsTyping(true); // Show "Thinking..." indicator
 
     try {
       const response = await axios.post(
@@ -75,9 +78,14 @@ const Chatbot: React.FC<ChatbotProps> = ({
       );
 
       const botMessage = response.data.choices[0].message.content;
-      setMessages([...newMessages, { text: botMessage, sender: "bot", timestamp: Date.now() }]);
+
+      setTimeout(() => {
+        setMessages([...newMessages, { text: botMessage, sender: "bot", timestamp: Date.now() }]);
+        setIsTyping(false); // Remove "Thinking..." after response
+      }, 1000); // Simulate delay
     } catch (error) {
       setMessages([...newMessages, { text: "Error fetching response.", sender: "bot", timestamp: Date.now() }]);
+      setIsTyping(false);
     }
   };
 
@@ -89,14 +97,12 @@ const Chatbot: React.FC<ChatbotProps> = ({
 
   return (
     <div className="chatbot-container">
-      {/* Toggle Button (Floating Button) */}
       {!isOpen && (
         <button className="chat-toggle-btn" onClick={() => setIsOpen(true)}>
           {toggleLogo ? <img src={toggleLogo} alt="Toggle Chat" /> : "💬"}
         </button>
       )}
 
-      {/* Chat Window */}
       {isOpen && (
         <motion.div
           className="chat-window"
@@ -104,15 +110,17 @@ const Chatbot: React.FC<ChatbotProps> = ({
           animate={{ opacity: 1, y: 0 }}
           exit={{ opacity: 0, y: 20 }}
         >
-          {/* Chat Header */}
           <div className="chat-head">
             {chatHeadLogo && <img src={chatHeadLogo} alt="Chat Head Logo" className="chat-head-logo" />}
             <span>{chatHeadTitle}</span>
-            <button className="chat-reset-btn" onClick={resetChat}>🔄</button>
-            <button className="chat-close-btn" onClick={() => setIsOpen(false)}>❌</button>
+            <button className="chat-reset-btn" onClick={resetChat}>
+              <FontAwesomeIcon icon={faRedo} />
+            </button>
+            <button className="chat-close-btn" onClick={() => setIsOpen(false)}>
+              <FontAwesomeIcon icon={faTimes} />
+            </button>
           </div>
 
-          {/* Messages */}
           <div className="chat-messages">
             {messages.map((msg, index) => (
               <motion.div
@@ -126,9 +134,20 @@ const Chatbot: React.FC<ChatbotProps> = ({
                 <span>{msg.text}</span>
               </motion.div>
             ))}
+
+            {/* Show AI Thinking Indicator */}
+            {isTyping && (
+              <motion.div
+                className="chat-bubble bot typing-indicator"
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                transition={{ repeat: Infinity, duration: 0.5 }}
+              >
+                <span>Thinking...</span>
+              </motion.div>
+            )}
           </div>
 
-          {/* Input Field */}
           <div className="chat-input">
             <input
               type="text"
