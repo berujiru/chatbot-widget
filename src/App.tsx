@@ -10,8 +10,9 @@ function App() {
         <Chatbot
         apiKey="your-openai-api-key"
         chatHeadTitle="AI Assistant"
-        botAvatar="https://via.placeholder.com/40?text=B"
-        userAvatar="https://via.placeholder.com/40?text=U"
+        chatHeadLogo="https://via.placeholder.com/40?text=CH"
+        toggleLogo="https://www.gravatar.com/avatar/2c7d99fe281ecd3bcd65ab915bac6dd5?s=250"
+        botAvatar="https://www.gravatar.com/avatar/2c7d99fe281ecd3bcd65ab915bac6dd5?s=250"
         logo="https://via.placeholder.com/60?text=L"
       />
       </header>
