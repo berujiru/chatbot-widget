@@ -1,4 +1,5 @@
 import axios from "axios";
+import knowledgeBase from "./knowledgeBase"; // ✅ Import the knowledge base
 
 const API_BASE_URL = "https://api.openai.com/v1/chat/completions";
 
@@ -7,8 +8,18 @@ export const sendMessageToAPI = async (message: string, apiKey: string) => {
     const response = await axios.post(
       API_BASE_URL,
       {
-        model: "gpt-4o",
-        messages: [{ role: "user", content: message }],
+        model: "gpt-4o", // ✅ Use latest GPT model
+        messages: [
+          {
+            role: "system",
+            content: knowledgeBase, // ✅ Injects the knowledge base
+          },
+          {
+            role: "user",
+            content: message,
+          },
+        ],
+        temperature: 0.7, // Adjust randomness
       },
       {
         headers: {
@@ -17,6 +28,7 @@ export const sendMessageToAPI = async (message: string, apiKey: string) => {
         },
       }
     );
+
     return response.data.choices[0].message.content;
   } catch (error) {
     console.error("API Error:", error);

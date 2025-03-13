@@ -31,7 +31,7 @@ const Chatbot: React.FC<ChatbotConfig> = (config) => {
     setMessages(newMessages);
     setInput("");
 
-    const botMessage = await sendMessageToAPI(input, config.apiKey);
+  const botMessage = await sendMessageToAPI(input, config.apiKey);
     setMessages([...newMessages, { text: botMessage, sender: "bot" }]);
   };
 
