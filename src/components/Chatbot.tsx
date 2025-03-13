@@ -5,6 +5,7 @@ import { sendMessageToAPI } from "../api";
 
 interface ChatbotConfig {
   apiKey: string;
+  apiBaseUrl?: string;
   chatHeadTitle?: string;
   chatHeadLogo?: string;
   toggleLogo?: string;
@@ -31,7 +32,7 @@ const Chatbot: React.FC<ChatbotConfig> = (config) => {
     setMessages(newMessages);
     setInput("");
 
-  const botMessage = await sendMessageToAPI(input, config.apiKey);
+  const botMessage = await sendMessageToAPI(input, config.apiKey,config.apiBaseUrl);
     setMessages([...newMessages, { text: botMessage, sender: "bot" }]);
   };
 
