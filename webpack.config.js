@@ -5,7 +5,7 @@ module.exports = {
   output: {
     filename: "chatbot-widget.js",
     path: path.resolve(__dirname, "dist"),
-    library: "ChatbotWidget",
+    library: "Chatbot",
     libraryTarget: "umd",
     globalObject: "this",
   },
