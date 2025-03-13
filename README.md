@@ -45,12 +45,26 @@ You can learn more in the [Create React App documentation](https://facebook.gith
 
 To learn React, check out the [React documentation](https://reactjs.org/).
 
-updating the gh page dist
+## Deployment on Pushing to GitHub Pages
 
-git checkout gh-pages
-git pull origin gh-pages  # Ensure you're up-to-date
-git checkout main -- dist  # Copy the updated dist/ folder from main
-git add dist
-git commit -m "Updated chatbot build"
-git push origin gh-pages
+```
+npx webpack
+npm run deploy
+```
 
+## Usage
+
+```
+<script src="https://xxlinkxx"></script>
+<script>
+    // Initialize Chatbot
+    Chatbot.ChatbotWidget.init({
+    apiKey: "your-openai-api-key",
+    chatHeadTitle: "AI Assistant",
+    chatHeadLogo: "https://robohash.org/BergelChatbot",
+    toggleLogo: "https://robohash.org/BergelChatbot",
+    botAvatar: "https://robohash.org/BergelChatbot",
+    logo: "https://robohash.org/BergelChatbot"
+    });
+</script>
+```
