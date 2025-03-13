@@ -32,6 +32,6 @@ export const sendMessageToAPI = async (message: string, apiKey: string) => {
     return response.data.choices[0].message.content;
   } catch (error) {
     console.error("API Error:", error);
-    return "Error fetching response.";
+    return "Oops! Can you try again?";
   }
 };
