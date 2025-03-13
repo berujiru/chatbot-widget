@@ -7,6 +7,7 @@ module.exports = {
     path: path.resolve(__dirname, "dist"),
     library: "ChatbotWidget",
     libraryTarget: "umd",
+    globalObject: "this",
   },
   module: {
     rules: [
@@ -29,6 +30,5 @@ module.exports = {
   resolve: {
     extensions: [".js", ".jsx", ".ts", ".tsx"],
   },
-  externals: {}, // Ensure React is bundled, no externals
   mode: "production",
 };
