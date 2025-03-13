@@ -31,19 +31,29 @@ const Chatbot: React.FC<ChatbotProps> = ({
   maxConversationHours = 24,
 }) => {
   const [messages, setMessages] = useState<Message[]>(() => {
-    const savedMessages = localStorage.getItem("chatHistory");
-    if (savedMessages) {
-      const parsedMessages: Message[] = JSON.parse(savedMessages);
-      const expirationTime = maxConversationHours * 60 * 60 * 1000;
-      const now = Date.now();
-
-      const filteredMessages = parsedMessages.filter(
-        (msg) => now - msg.timestamp < expirationTime
-      );
-
-      return filteredMessages.length > 0 ? filteredMessages : [{ text: "Hello! How can I assist you today?", sender: "bot", timestamp: now }];
+    const now = Date.now();
+    const defaultMessage: Message = {
+      text: "Hello! How can I assist you today?",
+      sender: "bot",
+      timestamp: now,
+    };
+  
+    try {
+      const savedMessages = localStorage.getItem("chatHistory");
+      if (savedMessages) {
+        const parsedMessages: Message[] = JSON.parse(savedMessages);
+        const expirationTime = maxConversationHours * 60 * 60 * 1000;
+  
+        // Filter only valid messages within the expiration time
+        const validMessages = parsedMessages.filter((msg) => now - msg.timestamp < expirationTime);
+  
+        return validMessages.length > 0 ? validMessages : [defaultMessage];
+      }
+    } catch (error) {
+      console.error("Error parsing chat history:", error);
     }
-    return [{ text: "Hello! How can I assist you today?", sender: "bot", timestamp: Date.now() }];
+  
+    return [defaultMessage];
   });
 
   const [input, setInput] = useState("");
